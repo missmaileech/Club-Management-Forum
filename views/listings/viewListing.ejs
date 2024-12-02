@@ -1,0 +1,148 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .replies {
+    margin-left: 20px;
+    border-left: 1px solid #ddd;
+    padding-left: 15px;
+  }
+  
+  .comment-container {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 1rem;
+  }
+
+  .comment-user-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+
+  .comment-content {
+    flex-grow: 1;
+  }
+
+  .comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .comment-username {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .comment-time {
+    color: #888;
+    font-size: 0.9rem;
+  }
+</style>
+
+<div class="post-container mt-5">
+  <div class="card">
+    <% if (listing.image.url) { %>
+      <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.image.fileName %>">
+    <% } %>
+    <div class="card-body">
+      <h5 class="card-title home-h2-listing" ><%= listing.title %></h5>
+      <p class="card-text"><div class="pre-content" style="font-size: large;"><%= listing.description %></div></p>
+      <p class="text-muted">Posted by <%= listing.author.username %> on <%= listing.createdAt.toDateString() %></p>
+      <% if (isAdmin){ %>
+      <a href="<%= id2 %>/edit" class="btn btn-primary">Edit Post</a>
+      <form method="post" action="?_method=DELETE" class="d-inline">
+        <button type="submit" class="btn btn-danger">Delete Post</button>
+      </form>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Display comments -->
+  <% if (currUser) { %>
+    <div class="mt-5">
+      <h5>Comments</h5>
+      <form action="<%= id2 %>/comments" method="post">
+        <div class="mb-3">
+          <label for="comment" class="form-label">Add a comment</label>
+          <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  <% } %>
+
+  <div class="mt-5">
+    <% function displayComment(comment, level) { %>
+      <div class="comment-container" style="margin-left: <%= level * 20 %>px;">
+        <img src="<%= comment.author ? comment.author.image : '/path/to/default/image.jpg' %>" alt="User Image" class="comment-user-img">
+        <div class="comment-content">
+          <div class="comment-header">
+            <span class="comment-username"><%= comment.author ? comment.author.firstName : 'Unknown' %></span>
+            <span class="comment-time"><%= comment.createdAt ? comment.createdAt.toDateString() : 'Unknown date' %></span>
+          </div>
+          <p class="card-text"><%= comment.comment %></p>
+
+          <!-- Conditional Check for Update/Delete Buttons -->
+          <% if (currUser && comment.author && comment.author._id.toString() === currUser._id.toString()) { %>
+            <button class="btn btn-sm btn-outline-secondary edit-button" data-id="<%= comment._id %>">Edit</button>
+            <form class="edit-form mt-3" action="<%= id2 %>/comments/<%= comment._id %>?_method=PUT" method="post" style="display: none;">
+              <div class="mb-3">
+                <label for="editComment" class="form-label">Edit Comment</label>
+                <textarea class="form-control" name="comment" rows="2" required><%= comment.comment %></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm">Update Comment</button>
+            </form>
+            <form class="delete-form mt-3 d-inline" action="<%= id2 %>/comments/<%= comment._id %>?_method=DELETE" method="post">
+              <button type="submit" class="btn btn-danger btn-sm">Delete Comment</button>
+            </form>
+          <% } %>
+          
+          <!-- Reply Button and Form -->
+          <button class="btn btn-sm btn-outline-secondary reply-button" data-id="<%= comment._id %>">Reply</button>
+          <form class="reply-form mt-3" action="<%= id2 %>/comments/<%= comment._id %>/reply" method="post" style="display: none;">
+            <div class="mb-3">
+              <label for="reply" class="form-label">Your Reply</label>
+              <textarea class="form-control" name="reply" rows="2" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Submit Reply</button>
+          </form>
+
+          <% if (comment.replies && comment.replies.length) { %>
+            <div class="replies mt-3">
+              <% comment.replies.forEach(function(reply) { %>
+                <%= displayComment(reply, level + 1) %>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    <% } %>
+
+    <% comments.forEach(function(comment) { %>
+      <% if (comment.commentType !== 'reply') { %>
+        <%= displayComment(comment, 0) %>
+      <% } %>
+    <% }) %>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.reply-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      const replyForm = this.nextElementSibling;
+      replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+    });
+  });
+
+  document.querySelectorAll('.edit-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      const editForm = this.nextElementSibling;
+      editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
+    });
+  });
+});
+</script>
+

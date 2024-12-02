@@ -1,0 +1,431 @@
+a:link, a:visited, a:hover, a:active {
+    text-decoration: none;
+}
+
+.pre-content{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+/* navbar */
+nav{
+    padding: 0px !important;
+}
+.navbar{
+    background-image: url("../assets/logo1.png");
+    background-size: cover;
+
+}
+nav .container-fluid{
+    border-bottom: 1px solid grey;
+    -webkit-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+nav .nav-lef{
+    display: flex;
+}
+
+nav .nav-ryt{
+    display: flex;
+}
+
+nav .nav-ryt .nav-rounded-circle{
+    border-radius: 50%;
+}
+
+nav .nav-ryt .create-btn{
+    margin: 0 14px 0 0;
+}
+
+nav .nav-ryt .user-icon{
+    margin: auto;
+}
+
+body {
+    font-family: "Varela Round", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+    align-items: center;
+}
+
+#university-name {
+    font-weight: 700;
+    color: white;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 720px) {
+    #university-name {
+        display: none;
+    }
+}
+/* footer */
+footer{
+    background-color: #102449;
+    height: 8rem;
+    padding: 33px 20px;
+    color: grey;
+    display: flex;
+    justify-content: space-around;
+}
+
+footer a{
+    text-decoration: none;
+    
+}
+
+footer .fa-brands{
+    padding-left: 0.5rem;
+}
+
+
+/* login */
+.login-container{
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    margin: 0;
+}
+
+.login {
+    text-align: center;
+    background: white;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 6px 6px 6px rgba(0, 0, 0, 0.2);
+}
+
+.login-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    color: white;
+    background-color: #4285F4;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.login-button:hover{
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #357ae8;
+}
+
+
+/* club */
+
+.club-card {
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card{
+    border: none !important;
+}
+
+.card-img-top {
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-text p {
+    font-weight: 400;
+}
+
+/* club specific pages */
+
+.heading-club-image {
+    background-image: url('/assets/club_background.png');
+    background-size: 150%;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 4rem;
+}
+
+.heading-club .heading-club-image h2{
+    text-align: center;
+    font-family: "Oswald", "sans-serif";
+    font-size: 50px;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000; 
+    color: #fff;
+}
+
+.action {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-inline: 120px;
+}
+
+.action button{
+    margin-top: 10px;
+    padding-inline: 50px !important;
+}
+
+
+.accordion-button{
+    background-color: #f3f3f3;
+    font-size: 25px !important;
+}
+
+.desc-btn a{
+    text-decoration: none;
+}
+
+.coord {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.coord-items {
+    flex: 1 1 30%;
+    box-sizing: border-box;
+    margin: 10px;
+    text-align: center;
+}
+
+.coord-img img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.heading-club-btns-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.club-btn-follow,
+.club-btn-view,
+.club-btn-new {
+    height: 2.5rem;
+    width: 12rem;
+    margin: 0.4rem;
+}
+
+.follow-container {
+    display: flex;
+    align-items: center;
+}
+
+
+
+.accordion-button:not(.collapsed){
+    background-color: #fff !important;
+}
+
+.accordion-button:focus{
+    box-shadow: none !important;
+}
+
+.club-page-heading{
+    font-size: 30px;
+    font-family:"sans-serif", "Oswald";
+    color: rgba(0, 0, 139, 0.881);
+}
+.description h3{
+    font-size: 20px;
+    font-family:"sans-serif", "Oswald";
+    color: rgba(0, 0, 139, 0.881);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* add club with about section */
+.about-sections{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.about-section{
+    flex: 1 1 48%;
+    border: 1px solid black ;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 0.5rem 0.5rem 1rem 0;
+}
+
+.about-section .form-label{
+    margin-top: 3px;
+}
+
+/* add club with coordinator section */
+.coordinator-sections{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.coordinator-section{
+    flex: 1 1 30%;
+    border: 1px solid black ;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 0.5rem 0.5rem 1rem 0;
+}
+
+.coordinator-section .form-label{
+    margin-top: 3px;
+}
+
+
+.showclub-action{
+    display: flex;
+    margin: 0;
+    
+}
+
+.clubspec-form{
+    padding:1.5rem 1.5rem 1.5rem 0;
+}
+
+/* edit club page */
+.coord-img{
+    text-align: center;
+}
+
+
+/* show listing */
+.post-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.post-box .post {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    background-color: #fff;
+    width: 100%;
+    height: fit-content;
+    padding-bottom: 2rem;
+    margin: 0;
+}
+
+.post-box .post:hover {
+    transform: scale(1.05);
+}
+
+.post-box .post .image img {
+    height: 34rem;
+    width: 100%;
+    object-fit: contain;
+}
+
+.post-box .post .info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 9rem;
+}
+
+.post-box .post .info .title {
+    font-size: 0.6em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.post-box .post .info .desc {
+    font-size: 0.9em;
+    color: #666;
+    flex-grow: 1;
+}
+
+.post-box .post .info .desc span {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: #999;
+}
+
+/* viewListing */
+
+.post-container .card img{
+    height: 400px;
+    width: 400px;
+}
+.info{
+    font-size: xx-large;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.text-muted{
+    font-size: medium;
+}
+
+/* home page */
+.home-main-heading{
+    height: 40vh;
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid black;
+}
+.carousel-inner {
+    max-height: 430px;
+    /* Set the max height for the carousel */
+    overflow: hidden;
+    /* Prevent overflow of images */
+}
+
+.carousel-img {
+    width: 700px;
+    /* Set the fixed width for images */
+    height: 430px;
+    /* Set the fixed height for images */
+    object-fit: cover;
+    /* Ensure images cover the specified dimensions without distortion */
+}
+
+.home-h2-listing{
+    font-weight: 700;
+        font-size: 50px;
+        color: #102449;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        font-family: 'Times New Roman', Times, serif;
+}
+
+.club-index-v1 h2 {
+    font-weight: 700;
+    font-size: 50px;
+    color: #102449;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-family: 'Times New Roman', Times, serif;
+}

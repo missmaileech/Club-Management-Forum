@@ -1,0 +1,43 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- <div class="home-main-heading">
+  <div>
+    Welcome to SMVDU Clubs.
+  </div>
+  <div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000" data-bs-touch="false">
+    <div class="carousel-inner">
+      <% for (let i = 0; i < clubs.length; i++) { %>
+        <% if (clubs[i].image.url) { %>
+          <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+            <img src="<%= clubs[i].image.url %>" class="d-block w-100 carousel-img" alt="..." />
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div> -->
+<h2 class="home-h2-listing">Latest Events of Clubs</h2>
+<div class="post-box">
+<% for (let listing of allListings){ %>
+<div class="post">
+  <a href="/clubs/<%= listing.club._id %>/listings/<%= listing._id %>">
+    <div class="info">
+        <div class="clib-title"><%= listing.club.title %></div>
+      <div class="title"><%= listing.title %></div>
+      <p class="text-muted">
+        Posted by <%= listing.author.username %> on <%=
+        listing.createdAt.toDateString() %>
+      </p>
+    </div>
+  </a>
+</div>
+<% } %>
+</div>

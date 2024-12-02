@@ -1,0 +1,14 @@
+install git
+git clone https://github.com/Sachinanand99/Forum-Website.git
+cd Forum-Website
+install nodejs 22, mongodb on port 27017
+npm i
+npm i -g nodemon
+npm run dev 
+
+
+to stop 8080 running port
+netstat -ano | findstr :8080
+taskkill /F /PID <pid>
+
+

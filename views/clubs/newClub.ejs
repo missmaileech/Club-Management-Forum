@@ -1,0 +1,409 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Include Cropper.js CSS and JS -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+  rel="stylesheet"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+<div class="row">
+  <div class="col-8 offset-2 mt-3">
+    <br /><br />
+    <h3>Create a new club</h3>
+    <form
+      method="post"
+      action="/clubs"
+      enctype="multipart/form-data"
+      class="needs-validation"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title*</label>
+        <input
+          type="text"
+          name="club[title]"
+          id="title"
+          class="form-control"
+          placeholder="Add your club title"
+          required
+        />
+        <div class="valid-feedback">Title looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description*</label>
+        <textarea
+          name="club[description]"
+          id="description"
+          placeholder="Enter description..."
+          class="form-control"
+          maxlength="45"
+        ></textarea>
+        <div class="invalid-feedback">
+          Please enter a description in 45 words.
+        </div>
+      </div>
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="image" class="form-label">Upload Club Image*</label>
+          <input
+            type="file"
+            name="club[image]"
+            id="image"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3 col-md-8">
+          <label for="admins" class="form-label">Add Admins Email* (seperated by commas)</label>
+          <input
+            type="text"
+            name="club[admins][0][email]"
+            id="admin-email-0"
+            class="form-control"
+            placeholder="Admin Email"
+            required
+          />
+        </div>
+        <hr />
+        <h5>About Section</h5>
+        <div id="about-sections" class="about-sections">
+          <div class="about-section">
+            <label for="about-title-0" class="form-label">About Title*</label>
+            <input
+              type="text"
+              name="club[about][0][title]"
+              id="about-title-0"
+              class="form-control"
+              placeholder="Enter about title"
+              required
+            />
+            <label for="about-desc-0" class="form-label"
+              >About Description*</label
+            >
+            <textarea
+              name="club[about][0][desc]"
+              id="about-desc-0"
+              class="form-control"
+              placeholder="Enter about description"
+              required
+            ></textarea>
+            <button type="button" class="btn btn-danger remove-about-btn mt-2">
+              Remove
+            </button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary mt-3" id="add-about-btn">
+          Add About Section
+        </button>
+        <hr class="mt-4" />
+        <h5>Coordinator Section</h5>
+        <div id="coordinator-sections" class="coordinator-sections">
+          <div class="coordinator-section mt-3">
+            <label for="coordinator-name-0" class="form-label"
+              >Coordinator Name*</label
+            >
+            <input
+              type="text"
+              name="club[coordinators][0][name]"
+              id="coordinator-name-0"
+              class="form-control"
+              placeholder="Coordinator Name"
+              required
+            />
+            <label for="coordinator-rollNo-0" class="form-label"
+              >Coordinator Roll No*</label
+            >
+            <input
+              type="text"
+              name="club[coordinators][0][rollNo]"
+              id="coordinator-rollNo-0"
+              class="form-control"
+              placeholder="Coordinator Roll No"
+              required
+            />
+            <label for="coordinator-img-0" class="form-label"
+              >Upload Image*</label
+            >
+            <input
+              type="file"
+              name="club[coordinators][0][img]"
+              id="coordinator-img-0"
+              class="form-control"
+              required
+            />
+            <button
+              type="button"
+              class="btn btn-danger mt-2 remove-coordinator-btn"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn btn-secondary mt-3"
+          id="add-coordinator-btn"
+        >
+          Add Coordinator
+        </button>
+      </div>
+      <button class="btn btn-success mt-3">Create Club</button>
+      <br /><br />
+    </form>
+  </div>
+</div>
+
+<!-- Modal for cropping the image -->
+<div
+  class="modal"
+  id="cropperModal"
+  tabindex="-1"
+  aria-labelledby="cropperModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cropperModalLabel">Crop Image</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <img
+          id="image-to-crop"
+          src=""
+          alt="Image to Crop"
+          style="max-width: 80%"
+        />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" id="cropImageBtn">
+          Crop Image
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateAboutSectionIds() {
+    const aboutSections = document.querySelectorAll(".about-section");
+    aboutSections.forEach((section, index) => {
+      section
+        .querySelector('.form-label[for^="about-title"]')
+        .setAttribute("for", `about-title-${index}`);
+      section
+        .querySelector('.form-control[id^="about-title"]')
+        .setAttribute("id", `about-title-${index}`);
+      section
+        .querySelector('.form-control[name^="club[about]"][name$="[title]"]')
+        .setAttribute("name", `club[about][${index}][title]`);
+
+      section
+        .querySelector('.form-label[for^="about-desc"]')
+        .setAttribute("for", `about-desc-${index}`);
+      section
+        .querySelector('.form-control[id^="about-desc"]')
+        .setAttribute("id", `about-desc-${index}`);
+      section
+        .querySelector('.form-control[name^="club[about]"][name$="[desc]"]')
+        .setAttribute("name", `club[about][${index}][desc]`);
+    });
+  }
+  function updateCoordinatorSectionIds() {
+    const coordinatorSections = document.querySelectorAll(
+      ".coordinator-section"
+    );
+    coordinatorSections.forEach((section, index) => {
+      section
+        .querySelector('.form-label[for^="coordinator-name"]')
+        .setAttribute("for", `coordinator-name-${index}`);
+      section
+        .querySelector('.form-control[id^="coordinator-name"]')
+        .setAttribute("id", `coordinator-name-${index}`);
+      section
+        .querySelector(
+          '.form-control[name^="club[coordinators]"][name$="[name]"]'
+        )
+        .setAttribute("name", `club[coordinators][${index}][name]`);
+
+      section
+        .querySelector('.form-label[for^="coordinator-rollNo"]')
+        .setAttribute("for", `coordinator-rollNo-${index}`);
+      section
+        .querySelector('.form-control[id^="coordinator-rollNo"]')
+        .setAttribute("id", `coordinator-rollNo-${index}`);
+      section
+        .querySelector(
+          '.form-control[name^="club[coordinators]"][name$="[rollNo]"]'
+        )
+        .setAttribute("name", `club[coordinators][${index}][rollNo]`);
+
+      section
+        .querySelector('.form-label[for^="coordinator-img"]')
+        .setAttribute("for", `coordinator-img-${index}`);
+      section
+        .querySelector('.form-control[id^="coordinator-img"]')
+        .setAttribute("id", `coordinator-img-${index}`);
+      section
+        .querySelector(
+          '.form-control[name^="club[coordinators]"][name$="[img]"]'
+        )
+        .setAttribute("name", `club[coordinators][${index}][img]`);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    let aboutSectionCount = 1;
+    let coordinatorSectionCount = 1;
+
+    document
+      .getElementById("add-about-btn")
+      .addEventListener("click", function () {
+        const aboutSections = document.getElementById("about-sections");
+        const newSection = document.createElement("div");
+        newSection.classList.add("about-section", "mb-3");
+        newSection.innerHTML = `
+            <label for="about-title-${aboutSectionCount}" class="form-label">About Title</label>
+            <input type="text" name="club[about][${aboutSectionCount}][title]" id="about-title-${aboutSectionCount}" class="form-control" placeholder="Enter about title" required>
+            <label for="about-desc-${aboutSectionCount}" class="form-label">About Description</label>
+            <textarea name="club[about][${aboutSectionCount}][desc]" id="about-desc-${aboutSectionCount}" class="form-control" placeholder="Enter about description" required></textarea>
+            <button type="button" class="btn btn-danger mt-2 remove-about-btn">Remove</button>
+        `;
+        aboutSections.appendChild(newSection);
+        aboutSectionCount++;
+        updateAboutSectionIds();
+      });
+
+    document
+      .getElementById("about-sections")
+      .addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-about-btn")) {
+          event.target.parentElement.remove();
+          updateAboutSectionIds();
+        }
+      });
+
+    document
+      .getElementById("add-coordinator-btn")
+      .addEventListener("click", function () {
+        const coordinatorSections = document.getElementById(
+          "coordinator-sections"
+        );
+        const newSection = document.createElement("div");
+        newSection.classList.add("coordinator-section", "mb-3");
+        newSection.innerHTML = `
+                <label for="coordinator-name-${coordinatorSectionCount}" class="form-label">Coordinator Name</label>
+                <input type="text" name="club[coordinators][${coordinatorSectionCount}][name]" id="coordinator-name-${coordinatorSectionCount}" class="form-control" placeholder="Coordinator Name" required>
+                <label for="coordinator-rollNo-${coordinatorSectionCount}" class="form-label">Coordinator Roll No</label>
+                <input type="text" name="club[coordinators][${coordinatorSectionCount}][rollNo]" id="coordinator-rollNo-${coordinatorSectionCount}" class="form-control" placeholder="Coordinator Roll No" required>
+                <label for="coordinator-img-${coordinatorSectionCount}" class="form-label">Upload Image</label>
+                <input type="file" name="club[coordinators][${coordinatorSectionCount}][img]" id="coordinator-img-${coordinatorSectionCount}" class="form-control" required>
+                <button type="button" class="btn btn-danger mt-2 remove-coordinator-btn">Remove</button>
+            `;
+        coordinatorSections.appendChild(newSection);
+        coordinatorSectionCount++;
+        updateCoordinatorSectionIds();
+      });
+
+    document
+      .getElementById("coordinator-sections")
+      .addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-coordinator-btn")) {
+          event.target.parentElement.remove();
+          updateCoordinatorSectionIds();
+        }
+      });
+  });
+
+  let cropper;
+  const imageInput = document.getElementById("image");
+  let currentImageInput;
+
+  function initializeCropper(imageElement) {
+    cropper = new Cropper(imageElement, {
+      aspectRatio: 700 / 430,
+      viewMode: 1,
+      autoCropArea: 0.5,
+      responsive: true,
+      crop: function (event) {},
+    });
+  }
+
+  function openCropModal(file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const imageElement = document.getElementById("image-to-crop");
+      imageElement.src = e.target.result;
+      const modal = new bootstrap.Modal(
+        document.getElementById("cropperModal")
+      );
+      modal.show();
+      if (cropper) cropper.destroy();
+      initializeCropper(imageElement);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  imageInput.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      currentImageInput = event.target;
+      openCropModal(file);
+    }
+  });
+
+  document
+    .getElementById("cropImageBtn")
+    .addEventListener("click", function () {
+      if (cropper) {
+        const canvas = cropper.getCroppedCanvas({
+          width: 700,
+          height: 430,
+        });
+        const croppedImage = canvas.toDataURL();
+        const file = dataURLToFile(croppedImage, "cropped-image.png");
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        currentImageInput.files = dataTransfer.files;
+        const modal = bootstrap.Modal.getInstance(
+          document.getElementById("cropperModal")
+        );
+        modal.hide();
+      }
+    });
+
+  function dataURLToFile(dataURL, filename) {
+    let arr = dataURL.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
+
+
+  document.querySelector('form').addEventListener('submit', function(event) {
+    const emailField = document.getElementById('admin-email-0');
+    const emails = emailField.value.split(',').map(email => email.trim());
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const invalidEmails = emails.filter(email => !emailPattern.test(email));
+
+    if (invalidEmails.length > 0) {
+        event.preventDefault();
+        alert('Please enter valid email addresses: ' + invalidEmails.join(', '));
+    }
+});
+
+</script>

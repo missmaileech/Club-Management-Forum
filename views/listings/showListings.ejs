@@ -1,0 +1,22 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="post-box">
+  <% for (let listing of allListings){ %>
+  <div class="post">
+    <a href="/clubs/<%= id %>/listings/<%= listing._id %>">
+      <div class="image">
+        <% if (listing.image.url){ %>
+        <img src="<%= listing.image.url %>" alt="" />
+        <% } %>
+      </div>
+      <div class="info">
+        <div class="title"><%= listing.title %></div>
+        <p class="text-muted">
+          Posted by <%= listing.author.username %> on <%=
+          listing.createdAt.toDateString() %>
+        </p>
+      </div>
+    </a>
+  </div>
+  <% } %>
+</div>

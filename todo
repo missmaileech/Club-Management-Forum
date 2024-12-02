@@ -1,0 +1,37 @@
+1.
+initialize project
+creating common routes
+setting up db
+creating models for database
+initialize sample datasets
+
+2.
+navbar design
+footer design
+design boilerplate of website in ejs
+login route
+signup only with university google cloud api
+backend
+login page template
+
+3.
+navbar redesign
+create clubs route and perform crud on club.
+create clubs templates.
+
+4.
+create listing route and perform crud on listing.
+merge with backend.
+do validation on club and listing (both frontend and backend)
+
+5.
+add comment feature perform crud on comment.
+merge with backend.
+add user validation for listing and club.
+
+6.
+add search feature for searching club and listing.
+
+7.
+fix bugs.
+deploy
