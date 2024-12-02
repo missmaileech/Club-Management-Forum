@@ -131,7 +131,7 @@ app.use((req, res, next) => {
 
 // home route
 app.get("/", (req, res) => {
-  res.redirect("/clubs");
+  res.redirect("/listings");
 })
 
 // listing route
